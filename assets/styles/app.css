@@ -1,3 +1,41 @@
 body {
-    background-color: skyblue;
+    background-color: #181818;
+    color: white;
+    font-size: 24px;
+    font-family: sans-serif;
+}
+
+.time-table {
+    margin-top: 2vh;
+
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+
+.time-table th,td {
+    padding: 10px;
+
+    border: 1px solid white;
+}
+
+.btn {
+    padding: 10px;
+
+    border-radius: 30px;
+    text-decoration: none;
+}
+
+.btn-edit {
+    color: black;
+    background-color: lightblue;
+}
+
+.btn-rm {
+    color: white;
+    background-color: rgb(120, 0, 0);
+}
+
+.btn-export {
+    color: white;
+    background-color: lime;
 }

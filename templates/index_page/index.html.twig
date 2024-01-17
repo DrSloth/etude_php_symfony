@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexPageController!{% endblock %}
+
+{% block body %}
+<script>
+function edit_line(self) {
+    const tr = self.parentNode.parentNode;
+    const tds = tr.querySelectorAll('td');
+
+    const cont0 = tds[1].textContent;
+    tds[1].innerHTML = `
+        <input type="datetime-local" name="start_time" value="${cont0}"/>
+    `;
+
+    const cont1 = tds[2].textContent;
+    tds[2].innerHTML = `
+        <input type="datetime-local" name="end_time" value="${cont1}"/>
+    `;
+
+    const save_button = tds[3].children[0];
+    save_button.innerText = 'Save';
+
+    save_button.onclick = () => {
+        const form = document.forms[0];
+        form.elements['start_time'].value = tds[1].children[0].value;
+        form.elements['end_time'].value = tds[2].children[0].value;
+        form.elements['id'].value = parseInt(tds[0].textContent);
+        form.action = '/update';
+
+        form.submit();
+    };
+}
+</script>
+
+<form action="/time", method="POST">
+    <input type="hidden" name="id">
+    <label>
+        Start Time:
+        <input type="datetime-local" name="start_time" />
+    </label>
+    <label>
+        End Time:
+        <input type="datetime-local" name="end_time" />
+    </label>
+    <button>
+    Add
+    </button>
+</form>
+<br>
+
+<a class="btn btn-export" href="/csv" target="_blank">
+CSV Export
+</a>
+<br>
+<br>
+
+<form action="/day_overview">
+    Day Overview:
+    <input type="date" name="day"/>
+    <button>Search</button>
+</form>
+<br>
+<br>
+
+<form action="/month_overview">
+    Month Overview:
+    <input type="month" name="month"/>
+    <button>Search</button>
+</form>
+<br>
+
+<p>
+Worked in the given time frame: {{time_sum}}
+</p>
+
+<table class="time-table">
+    <tr>
+        <th> Id </th>
+        <th> Start Time </th>
+        <th> End Time </th>
+    </tr>
+    {% for time in times %}
+    <tr>
+        <td>{{time.id}}</td>
+        <td>{{time.start_time}}</td>
+        <td>{{time.end_time}}</td>
+        <td>
+            <button onclick="edit_line(this)" type="button" class="btn btn-edit">
+                Edit
+            </button>
+        </td>
+        <td>
+            <a href='/delete/{{time.id}}' class="btn btn-rm">Delete</button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
